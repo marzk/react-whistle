@@ -1,0 +1,29 @@
+{
+  "name": "react-whistle",
+  "version": "0.0.1",
+  "description": "a short component append to body",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marzk/react-whistle.git"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "body"
+  ],
+  "author": "MarzK",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marzk/react-whistle/issues"
+  },
+  "homepage": "https://github.com/marzk/react-whistle#readme",
+  "devDependencies": {
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
+  }
+}
