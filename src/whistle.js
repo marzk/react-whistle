@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 export default function Whistle(Wrapper) {
   let onResolve, onReject;
-  const promise = new Promise((resolve, reject) => {
+  let promise = new Promise((resolve, reject) => {
     onResolve = resolve;
     onReject = reject;
   });
@@ -22,7 +22,7 @@ export default function Whistle(Wrapper) {
   }
 
   const wrapperName = Wrapper && Wrapper.displayName || Wrapper.name || typeof Wrapper === 'string' && Wrapper || 'Component';
-  Container.displayName = `Whistle(${WrapperName})`;
+  Container.displayName = `Whistle(${wrapperName})`;
 
   const whistle = () => {
     const wrapper = document.body.appendChild(document.createElement('div'));
@@ -35,16 +35,24 @@ export default function Whistle(Wrapper) {
     };
 
     // Always, and dont block reject.
-    return promise.then(value => {
+    promise = promise.then(value => {
       destroy();
       return value;
-    }, reason => {
+    }).catch(reason => {
       destroy();
     });
+
+    return promise;
   };
 
-  whistle.then = (...args) => promise.then.apply(promise, args);
-  whistle.catch = (...args) => promise.catch.apply(promise, args);
+  whistle.then = (...args) => {
+    promise = promise.then.apply(promise, args);
+    return whistle;
+  };
+  whistle.catch = (...args) => {
+    promise = promise.catch.apply(promise, args);
+    return whistle;
+  };
 
   return whistle;
 }

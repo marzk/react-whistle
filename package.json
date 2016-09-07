@@ -1,29 +1,18 @@
 {
   "name": "react-whistle",
-  "version": "0.0.1",
-  "description": "a short component append to body",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "peerDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/marzk/react-whistle.git"
-  },
-  "keywords": [
-    "react",
-    "component",
-    "body"
-  ],
-  "author": "MarzK",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/marzk/react-whistle/issues"
-  },
-  "homepage": "https://github.com/marzk/react-whistle#readme",
+  "version": "0.0.2",
   "devDependencies": {
-    "react": "^15.3.1",
-    "react-dom": "^15.3.1"
+    "react-scripts": "0.4.1",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/react-scripts/config/eslint.js"
   }
 }
