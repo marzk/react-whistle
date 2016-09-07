@@ -43,7 +43,8 @@ export default function Whistle(Wrapper) {
     });
   };
 
-  whistle.promise = promise;
+  whistle.then = (...args) => promise.then.apply(promise, args);
+  whistle.catch = (...args) => promise.catch.apply(promise, args);
 
   return whistle;
 }
