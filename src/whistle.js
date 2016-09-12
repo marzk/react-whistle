@@ -9,14 +9,9 @@ export default function Whistle(Wrapper) {
   });
 
   class Container extends Component {
-    componentWillMount() {
-      this.resolve = onResolve;
-      this.reject = onReject;
-    }
-
     render() {
       return (
-        <Wrapper onResolve={this.resolve} onReject={this.reject} />
+        <Wrapper {...this.props} onResolve={onResolve} onReject={onReject} />
       );
     }
   }
@@ -24,9 +19,9 @@ export default function Whistle(Wrapper) {
   const wrapperName = Wrapper && Wrapper.displayName || Wrapper.name || typeof Wrapper === 'string' && Wrapper || 'Component';
   Container.displayName = `Whistle(${wrapperName})`;
 
-  const whistle = () => {
+  const whistle = (props = {}) => {
     const wrapper = document.body.appendChild(document.createElement('div'));
-    const component = render(<Container />, wrapper);
+    const component = render(<Container {...props} />, wrapper);
     const destroy = () => {
       unmountComponentAtNode(wrapper);
       setTimeout(() => {
@@ -53,6 +48,9 @@ export default function Whistle(Wrapper) {
     promise = promise.catch.apply(promise, args);
     return whistle;
   };
+
+  whistle.resolve = onResolve;
+  whistle.reject = onReject;
 
   return whistle;
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-whistle",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A react component for handling your upset ui states.",
   "main": "whistle.js",
   "scripts": {
