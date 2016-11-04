@@ -1,9 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import Whistle from './whistle';
+import Validation from './validation';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+export {
+  Whistle,
+  Validation,
+};
