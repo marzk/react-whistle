@@ -3,7 +3,7 @@ import isFunction from 'lodash.isfunction';
 
 //import setWrapDisplayName from 'components/HOC/setWrapDisplayName';
 
-const isPromise = p => p && typeof p.then === 'function';
+const isPromise = p => p && isFunction(p.then);
 const alwaysFalse = () => false;
 
 const ValidationHOC = ({
@@ -21,41 +21,53 @@ const ValidationHOC = ({
       this.validate = this.validate.bind(this);
       this.singleValidate = this.singleValidate.bind(this);
       this.validateFields = this.validateFields.bind(this);
+      this.handleMessage = this.handleMessage.bind(this);
+      this.validation = {
+        singleValidate: this.singleValidate,
+        validate: this.validate,
+        validateFields: this.validateFields,
+        handleMessage: this.handleMessage,
+      };
     }
 
     initState() {
-      return {
-        ...this.fields.reduce((state, field) => {
-          state[field] = '';
-          return state;
-        }, {}),
+      return this.fields.reduce((state, field) => {
+        state[field] = '';
+        return state;
+      }, {});
+    }
+
+    handleMessage(field) {
+      return (msg = '') => {
+        const message = isFunction(msg) && msg(this.contextChild, this.validation) || msg;
+        this.setState({
+          [field]: msg,
+        });
       };
     }
 
     singleValidate(field) {
+      const handleMessage = this.handleMessage(field);
       return value => rule => {
         try {
           if (isPromise(rule)) {
-            return rule.then(this.singleValidate(field)(value));
+            return rule.then(rule => {
+              if (!this.state[field]) {
+                return this.singleValidate(field)(value)(rule);
+              }
+            });
           } else if (typeof rule === 'function') {
-            return rule(value, this.validate);
+            return this.singleValidate(field)(value)(rule(value, this.contextChild, this.validation));
           } else if (typeof rule === 'object') {
             const {
               validator = alwaysFalse,
               msg = '',
             } = rule;
 
-            let v = value;
-            if (typeof value === 'object') {
-              v = value[field] || '';
-            }
-
-            const isValid = validator(v);
+            const isValid = validator(value, this.contextChild, this.validation);
 
             if (!isValid) {
-              this.setState({
-                [field]: isFunction(msg) ? msg() : msg,
-              });
+              handleMessage(msg);
               return false;
             }
 
@@ -89,37 +101,42 @@ const ValidationHOC = ({
             if (!result) {
               return result;
             }
-          } else if (!isPromise(result)) {
-            rules.unshift(result);
           }
         }
 
-        this.setState({
-          [field]: '',
-        });
+        this.handleMessage(field)();
 
         return true;
       };
     }
 
-    validateFields(fields) {
-      return Object.keys(fields).every(field => this.validate(field)(fields));
+    validateFields(fields, always = false) {
+      const arrFields = Object.keys(fields);
+      if (always) {
+        return arrFields.reduce((result, field) => {
+          if (!this.validate(field)(fields[field])) {
+            result = false;
+          }
+          return result;
+        }, true);
+      } else {
+        return arrFields.every(field => this.validate(field)(fields[field]));
+      }
     }
 
     render() {
-      const validation = {
-        field: this.state,
-        singleValidate: this.singleValidate,
-        validate: this.validate,
-        validateFields: this.validateFields,
-      };
-
       const newProps = {
         ...this.props,
-        [this.propName]: validation,
+        [this.propName]: {
+          field: this.state,
+          ...this.validation,
+        },
       };
       return (
-        <Wrapper {...newProps} />
+        <Wrapper
+          ref={child => (this.contextChild = child)}
+          {...newProps}
+        />
       );
     }
   }

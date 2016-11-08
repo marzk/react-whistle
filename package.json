@@ -2,30 +2,41 @@
   "name": "react-whistle",
   "version": "1.0.0",
   "devDependencies": {
+    "@kadira/storybook": "^2.21.0",
     "babel-core": "^6.18.0",
     "babel-loader": "^6.2.7",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-2": "^6.18.0",
     "es3ify-loader": "^0.2.0",
+    "gzip-size": "^3.0.0",
     "lodash.isfunction": "^3.0.8",
+    "prettysize": "0.0.3",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
-    "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.2"
+    "recompose": "^0.20.2",
+    "webpack": "^1.13.2"
   },
   "files": [
-    "dist",
-    "lib",
-    "src"
+    "dist"
   ],
+  "author": "MarzK",
   "licence": "MIT",
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "start": "npm run storybook",
+    "build": "node ./build.js",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
-  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marzk/react-whistle.git"
+  },
+  "main": "dist/whistle.js",
+  "bugs": {
+    "url": "https://github.com/marzk/react-whistle/issues"
+  },
+  "homepage": "https://github.com/marzk/react-whistle#readme",
   "peerDependencies": {
     "react": "^0.14.8 || ^15.0.0"
   },

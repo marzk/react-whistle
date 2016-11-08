@@ -30,9 +30,8 @@ export default function Whistle(Wrapper) {
     };
 
     // Always, and dont block reject.
-    promise = promise.then(value => {
+    promise.then(value => {
       destroy();
-      return value;
     }).catch(reason => {
       destroy();
     });
