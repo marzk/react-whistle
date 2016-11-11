@@ -12,5 +12,3 @@ webpack(config, (err, stats) => {
   }
   console.log(`gzip size: ${pretty(gzipSize.sync(fs.readFileSync(path.join(__dirname, 'dist/whistle.js'))))}`);
 });
-
-

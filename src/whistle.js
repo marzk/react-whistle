@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
+import setWrapDisplayName from './setWrapDisplayName';
+
 export default function Whistle(Wrapper) {
   let onResolve, onReject;
   let promise = new Promise((resolve, reject) => {
@@ -16,8 +18,7 @@ export default function Whistle(Wrapper) {
     }
   }
 
-  const wrapperName = Wrapper && Wrapper.displayName || Wrapper.name || typeof Wrapper === 'string' && Wrapper || 'Component';
-  Container.displayName = `Whistle(${wrapperName})`;
+  setWrapDisplayName('Whistle', Container);
 
   const whistle = (props = {}) => {
     const wrapper = document.body.appendChild(document.createElement('div'));

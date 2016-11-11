@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import isFunction from 'lodash.isfunction';
 
-//import setWrapDisplayName from 'components/HOC/setWrapDisplayName';
+import setWrapDisplayName from './setWrapDisplayName';
 
 const isPromise = p => p && isFunction(p.then);
 const alwaysFalse = () => false;
@@ -141,7 +141,7 @@ const ValidationHOC = ({
     }
   }
 
-  //return setWrapDisplayName('Validation')(Validation);
+  setWrapDisplayName('Validation', Validation);
   return Validation;
 };
 
