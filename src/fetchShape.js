@@ -1,7 +1,7 @@
 import { PropTypes } from 'react';
 
 const {
-  bool, func, string,
+  bool, func, string, shape,
 } = PropTypes;
 
 const propTypes = shape({

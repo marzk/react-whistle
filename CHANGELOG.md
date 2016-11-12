@@ -1,8 +1,9 @@
-## 1.0.0
+## 1.0.3
 
-### Validation
+### Whistle
 
-- 验证组件
+- 增加Whistle例子
+- 增加function形式的props
 
 ## 1.0.1
 
@@ -13,3 +14,9 @@
 ### setWrapDisplayName
 
 - 命名组件
+
+## 1.0.0
+
+### Validation
+
+- 验证组件

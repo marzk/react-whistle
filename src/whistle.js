@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import isFunction from 'lodash.isfunction';
 
 import setWrapDisplayName from './setWrapDisplayName';
 
@@ -13,14 +14,20 @@ export default function Whistle(Wrapper) {
   class Container extends Component {
     render() {
       return (
-        <Wrapper {...this.props} onResolve={onResolve} onReject={onReject} />
+        <Wrapper onResolve={onResolve} onReject={onReject} {...this.props} />
       );
     }
   }
 
   setWrapDisplayName('Whistle', Container);
 
-  const whistle = (props = {}) => {
+  const whistle = (newProps = {}) => {
+    let props;
+    if (isFunction(newProps)) {
+      props = newProps(onResolve, onReject);
+    } else {
+      props = newProps;
+    }
     const wrapper = document.body.appendChild(document.createElement('div'));
     const component = render(<Container {...props} />, wrapper);
     const destroy = () => {
