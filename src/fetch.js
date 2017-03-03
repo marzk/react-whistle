@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import setWrapDisplayName from './setWrapDisplayName';
 
 const defaultMapper = ({
-  fetch, success, error,
+  fetch, success, error, isFetching, isSuccess, isError,
 }) => ({
-  isFetching: !!fetch,
-  isSuccess: !!success,
-  isError: !!error,
+  isFetching,
+  isSuccess,
+  isError,
   fetch,
   success,
   error,
@@ -24,6 +24,9 @@ const FetchHOC = ({
         fetch: initialState.fetch || '',
         success: initialState.success || '',
         error: initialState.error || '',
+        isFetching: !!initialState.fetch,
+        isError: !!initialState.error,
+        isSuccess: !!initialState.success,
       };
       this.start = this.start.bind(this);
       this.ok = this.ok.bind(this);
@@ -33,6 +36,9 @@ const FetchHOC = ({
     start(fetch) {
       this.setState({
         fetch,
+        isFetching: true,
+        isError: true,
+        isSuccess: false,
         success: '',
         error: '',
       });
@@ -41,6 +47,9 @@ const FetchHOC = ({
     ok(success) {
       this.setState({
         success,
+        isSuccess: true,
+        isError: true,
+        isFetching: false,
         fetch: '',
         error: '',
       });
@@ -49,6 +58,9 @@ const FetchHOC = ({
     fail(error) {
       this.setState({
         error,
+        isError: true,
+        isFetching: false,
+        isSuccess: false,
         fetch: '',
         success: '',
       });
@@ -71,10 +83,9 @@ const FetchHOC = ({
     }
   }
 
-  setWrapDisplayName('Fetch', Fetch);
+  setWrapDisplayName('Fetch')(Fetch);
 
   return Fetch;
 };
 
 export default FetchHOC;
-
