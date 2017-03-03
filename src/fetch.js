@@ -83,7 +83,7 @@ const FetchHOC = ({
     }
   }
 
-  setWrapDisplayName('Fetch')(Fetch);
+  setWrapDisplayName('Fetch', Fetch);
 
   return Fetch;
 };
