@@ -37,7 +37,7 @@ const FetchHOC = ({
       this.setState({
         fetch,
         isFetching: true,
-        isError: true,
+        isError: false,
         isSuccess: false,
         success: '',
         error: '',
@@ -48,7 +48,7 @@ const FetchHOC = ({
       this.setState({
         success,
         isSuccess: true,
-        isError: true,
+        isError: false,
         isFetching: false,
         fetch: '',
         error: '',
