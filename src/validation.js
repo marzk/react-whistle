@@ -113,7 +113,7 @@ const ValidationHOC = ({
     validateFields(fields, {
       always = false,
       type = 'bool',
-    }) {
+    } = {}) {
       const arrFields = Object.keys(fields);
       if (always) {
         return arrFields.reduce((result, field) => {
