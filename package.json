@@ -1,6 +1,6 @@
 {
   "name": "react-whistle",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "devDependencies": {
     "@kadira/storybook": "^2.21.0",
     "babel-core": "^6.18.0",

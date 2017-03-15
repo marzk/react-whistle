@@ -41,7 +41,7 @@ const ValidationHOC = ({
       return (msg = '') => {
         const message = isFunction(msg) && msg(this.contextChild, this.validation) || msg;
         this.setState({
-          [field]: msg,
+          [field]: message,
         });
       };
     }
