@@ -21,15 +21,10 @@ export default function Whistle(Wrapper) {
 
   setWrapDisplayName('Whistle', Container);
 
-  const whistle = (newProps = {}) => {
-    let props;
-    if (isFunction(newProps)) {
-      props = newProps(onResolve, onReject);
-    } else {
-      props = newProps;
-    }
-    const wrapper = document.body.appendChild(document.createElement('div'));
-    const component = render(<Container {...props} />, wrapper);
+  let wrapper = document.body.appendChild(document.createElement('div'));
+
+  const whistle = (props = {}) => {
+    const component = update(props);
     const destroy = () => {
       unmountComponentAtNode(wrapper);
       setTimeout(() => {
@@ -38,15 +33,18 @@ export default function Whistle(Wrapper) {
     };
 
     // Always, and dont block reject.
-    promise.then(value => {
-      destroy();
-    }).catch(reason => {
-      destroy();
-    });
+    promise
+      .then(value => {
+        destroy();
+      })
+      .catch(reason => {
+        destroy();
+      });
 
     return promise;
   };
 
+  whistle.update = update;
   whistle.then = (...args) => {
     promise = promise.then.apply(promise, args);
     return whistle;
@@ -60,5 +58,10 @@ export default function Whistle(Wrapper) {
   whistle.reject = onReject;
 
   return whistle;
-}
 
+  function update(props = {}) {
+    props = typeof props === 'function' ? props(onResolve, onReject) : props;
+
+    return render(<Container {...props} />, wrapper);
+  }
+}

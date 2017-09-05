@@ -1,6 +1,6 @@
 {
   "name": "react-whistle",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "devDependencies": {
     "@kadira/storybook": "^2.21.0",
     "babel-core": "^6.18.0",
@@ -17,9 +17,7 @@
     "recompose": "^0.20.2",
     "webpack": "^1.13.2"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "author": "MarzK",
   "licence": "MIT",
   "scripts": {
