@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import isFunction from 'lodash.isfunction';
 
 import setWrapDisplayName from './setWrapDisplayName';
 
@@ -39,7 +38,8 @@ const ValidationHOC = ({
 
     handleMessage(field) {
       return (msg = '') => {
-        const message = isFunction(msg) && msg(this.contextChild, this.validation) || msg;
+        const message =
+          (isFunction(msg) && msg(this.contextChild, this.validation)) || msg;
         this.setState({
           [field]: message,
         });
@@ -57,14 +57,17 @@ const ValidationHOC = ({
               }
             });
           } else if (typeof rule === 'function') {
-            return this.singleValidate(field)(value)(rule(value, this.contextChild, this.validation));
+            return this.singleValidate(field)(value)(
+              rule(value, this.contextChild, this.validation)
+            );
           } else if (typeof rule === 'object') {
-            const {
-              validator = alwaysFalse,
-              msg = '',
-            } = rule;
+            const { validator = alwaysFalse, msg = '' } = rule;
 
-            const isValid = validator(value, this.contextChild, this.validation);
+            const isValid = validator(
+              value,
+              this.contextChild,
+              this.validation
+            );
 
             if (!isValid) {
               handleMessage(msg);
@@ -110,10 +113,7 @@ const ValidationHOC = ({
       };
     }
 
-    validateFields(fields, {
-      always = false,
-      type = 'bool',
-    } = {}) {
+    validateFields(fields, { always = false, type = 'bool' } = {}) {
       const arrFields = Object.keys(fields);
       if (always) {
         return arrFields.reduce((result, field) => {
@@ -136,10 +136,7 @@ const ValidationHOC = ({
         },
       };
       return (
-        <Wrapper
-          ref={child => (this.contextChild = child)}
-          {...newProps}
-        />
+        <Wrapper ref={child => (this.contextChild = child)} {...newProps} />
       );
     }
   }
@@ -150,3 +147,6 @@ const ValidationHOC = ({
 
 export default ValidationHOC;
 
+function isFunction(func) {
+  return typeof func === 'function';
+}

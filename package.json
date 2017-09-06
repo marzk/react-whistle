@@ -1,6 +1,6 @@
 {
   "name": "react-whistle",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "devDependencies": {
     "@kadira/storybook": "^2.21.0",
     "babel-core": "^6.18.0",
@@ -10,7 +10,6 @@
     "babel-preset-stage-2": "^6.18.0",
     "es3ify-loader": "^0.2.0",
     "gzip-size": "^3.0.0",
-    "lodash.isfunction": "^3.0.8",
     "prettysize": "0.0.3",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",

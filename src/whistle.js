@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import isFunction from 'lodash.isfunction';
 
 import setWrapDisplayName from './setWrapDisplayName';
 
@@ -23,26 +22,8 @@ export default function Whistle(Wrapper) {
 
   let wrapper = document.body.appendChild(document.createElement('div'));
 
-  const whistle = (props = {}) => {
-    const component = update(props);
-    const destroy = () => {
-      unmountComponentAtNode(wrapper);
-      setTimeout(() => {
-        document.body.removeChild(wrapper);
-      }, 0);
-    };
-
-    // Always, and dont block reject.
-    promise
-      .then(value => {
-        destroy();
-      })
-      .catch(reason => {
-        destroy();
-      });
-
-    return promise;
-  };
+  // Always, and dont block reject.
+  promise.then(destroy, destroy);
 
   whistle.update = update;
   whistle.then = (...args) => {
@@ -59,9 +40,22 @@ export default function Whistle(Wrapper) {
 
   return whistle;
 
+  function whistle(props = {}) {
+    const component = update(props);
+    return promise;
+  }
+
   function update(props = {}) {
     props = typeof props === 'function' ? props(onResolve, onReject) : props;
 
     return render(<Container {...props} />, wrapper);
+  }
+
+  function destroy() {
+    unmountComponentAtNode(wrapper);
+    setTimeout(() => {
+      document.body.removeChild(wrapper);
+      wrapper = null;
+    }, 0);
   }
 }
